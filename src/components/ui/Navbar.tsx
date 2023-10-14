@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Search } from './Search';
+import Image from 'next/image';
 
 export const Navbar = () => {
   return (
@@ -8,7 +9,7 @@ export const Navbar = () => {
         <Link href="/" passHref legacyBehavior>
           <a className=" cursor-pointer">
             <h1 className="flex no-underline">
-              <img
+              <Image
                 height="64"
                 width="64"
                 alt="logo"
@@ -21,7 +22,7 @@ export const Navbar = () => {
             </h1>
           </a>
         </Link>
-        
+
         <div>
           <Search />
         </div>
