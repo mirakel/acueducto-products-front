@@ -1,5 +1,8 @@
+import { productsApi } from '@/apis';
+import { ProductList } from '@/components/products';
 import { Product } from '@/interfaces';
-import { NextPage } from 'next';
+import { ProductResponse } from '@/interfaces';
+import { GetServerSideProps, NextPage } from 'next';
 
 interface Props {
   products: Product[];
@@ -9,10 +12,28 @@ interface Props {
 
 const SearchPage: NextPage<Props> = ({ products, foundProducts, query }) => {
   return (
-    <>
-      <h1>search page</h1>
-    </>
+    <div className="mx-auto max-w-6xl">
+      <p className="max-w-xl mx-auto text-base text-gray-600 mt-10">
+        Resultados para <span className="font-bold">{query}</span>:
+      </p>
+
+      <ProductList products={products} />
+    </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { query } = params as { query: string };
+
+  const { data } = await productsApi.get<ProductResponse>(`/search/${query}`);
+
+  return {
+    props: {
+      products: data.data,
+      query,
+      foundProducts: data.data.length === 0 ? false : true,
+    },
+  };
 };
 
 export default SearchPage;

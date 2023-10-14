@@ -21,6 +21,7 @@ export const Navbar = () => {
             </h1>
           </a>
         </Link>
+        
         <div>
           <Search />
         </div>

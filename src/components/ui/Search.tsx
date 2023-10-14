@@ -1,17 +1,16 @@
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 export const Search = () => {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
 
-  const onSearchTerm = () => {
+  const onSearchTerm = (e: React.FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
     if (searchTerm.trim().length === 0) return;
 
-    navigateTo(`/search?q=${searchTerm}`);
-  };
-
-  const navigateTo = (url: string) => {
-    router.push(url);
+    router.push(`/search/${searchTerm}`);
   };
 
   return (
@@ -35,10 +34,10 @@ export const Search = () => {
           autoFocus
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={(e) => (e.key === 'Enter' ? onSearchTerm() : null)}
+          onKeyDown={(e) => (e.key === 'Enter' ? onSearchTerm(e) : null)}
           type="text"
           id="default-search"
-          className="block w-full p-4 pl-10 text-s border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:text-white"
+          className="block w-full p-4 pl-10 text-s border rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
           placeholder="Buscar..."
         />
       </div>
