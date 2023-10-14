@@ -2,14 +2,14 @@ import { FC } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/interfaces';
-import { Price } from '../Price';
+import { Price, DiscountPrice } from '../prices';
 
 interface Props {
   product: Product;
 }
 
 export const ProductCard: FC<Props> = ({ product }) => {
-  const { id, title, image_url, brand, price } = product;
+  const { id, title, image_url, brand, price, original_price } = product;
 
   return (
     <Link href={`/products/${id}`} passHref legacyBehavior>
@@ -29,9 +29,19 @@ export const ProductCard: FC<Props> = ({ product }) => {
           <div className="text-lg text-gray-600 p-4 font-primary font-light">{title}</div>
           <div
             className="text-palette-dark font-primary font-medium text-base absolute bottom-0 right-0 mb-4 pl-8 pr-4 pb-1 pt-2 bg-palette-lighter 
-            rounded-tl-sm triangle"
+            rounded-tl-sm"
           >
-            <Price currency="$" num={price} numSize="text-lg" />
+            {original_price && price !== original_price ? (
+              <DiscountPrice
+                currency="$"
+                num={price}
+                numOriginal={original_price}
+                discount="50%"
+                numSize="text-lg"
+              />
+            ) : (
+              <Price currency="$" num={price} numSize="text-lg" />
+            )}
           </div>
         </div>
       </a>
